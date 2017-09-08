@@ -5,8 +5,8 @@ namespace PhpPreprocessor;
 
 const STREAM_OPEN_FOR_INCLUDE = 128;
 
-final class Wrapper {
-
+final class Wrapper
+{
     const PROTOCOLS = ['file', 'phar'];
 
     public static function register()
@@ -19,7 +19,8 @@ final class Wrapper {
     public static function unregister()
     {
         foreach (self::PROTOCOLS as $protocol) {
-            set_error_handler(function() {});
+            set_error_handler(function () {
+            });
             stream_wrapper_restore($protocol);
             restore_error_handler();
         }
@@ -29,7 +30,8 @@ final class Wrapper {
     public $context;
     public $resource;
     /* Methods */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     public function dir_closedir(): bool
@@ -58,7 +60,8 @@ final class Wrapper {
     public function mkdir(string $path, int $mode, int $options): bool
     {
         $recursive = (bool) ($options & STREAM_MKDIR_RECURSIVE);
-        return $this->wrapCallWithContext('mkdir', $path, $mode, $recursive);;
+        return $this->wrapCallWithContext('mkdir', $path, $mode, $recursive);
+        ;
     }
 
     public function rename(string $path_from, string $path_to): bool
@@ -81,24 +84,24 @@ final class Wrapper {
         fclose($this->resource);
     }
 
-    public function stream_eof (): bool
+    public function stream_eof(): bool
     {
         return feof($this->resource);
     }
 
-    public function stream_flush (): bool
+    public function stream_flush(): bool
     {
         return fflush($this->resource);
     }
 
-    public function stream_lock (int $operation): bool
+    public function stream_lock(int $operation): bool
     {
         return flock($this->resource, $operation);
     }
 
-    public function stream_metadata (string $path, int $option, $value): bool
+    public function stream_metadata(string $path, int $option, $value): bool
     {
-        return $this->wrapCall(function(string $path, int $option, $value) {
+        return $this->wrapCall(function (string $path, int $option, $value) {
             switch ($option) {
                 case STREAM_META_TOUCH:
                     if (empty($value)) {
@@ -122,7 +125,7 @@ final class Wrapper {
         }, $path, $option, $value);
     }
 
-    public function stream_open (string $path, string $mode, int $options, string &$opened_path = null): bool
+    public function stream_open(string $path, string $mode, int $options, string &$opened_path = null): bool
     {
         $useIncludePath = (bool) ($options & STREAM_USE_PATH);
 
@@ -136,17 +139,17 @@ final class Wrapper {
         return $this->resource !== false;
     }
 
-    public function stream_read (int $count): string
+    public function stream_read(int $count): string
     {
         return fread($this->resource, $count);
     }
 
-    public function stream_seek (int $offset, int $whence = SEEK_SET): bool
+    public function stream_seek(int $offset, int $whence = SEEK_SET): bool
     {
         return fseek($this->resource, $offset, $whence);
     }
 
-    public function stream_set_option (int $option, int $arg1, int $arg2 ): bool
+    public function stream_set_option(int $option, int $arg1, int $arg2): bool
     {
         switch ($option) {
             case STREAM_OPTION_BLOCKING:
@@ -171,21 +174,21 @@ final class Wrapper {
     }
 
     public function stream_truncate(int $new_size): bool
-    { 
+    {
         return ftruncate($this->resource, $new_size);
     }
 
-    public function stream_write (string $data): int
+    public function stream_write(string $data): int
     {
         return fwrite($this->resource, $data);
     }
 
-    public function unlink (string $path): bool
+    public function unlink(string $path): bool
     {
         return $this->wrapCallWithContext('unlink', $path);
     }
 
-    public function url_stat (string $path, int $flags)
+    public function url_stat(string $path, int $flags)
     {
         $result = @$this->wrapCall('stat', $path);
         if ($result === false) {
@@ -206,7 +209,8 @@ final class Wrapper {
     {
         try {
             foreach (self::PROTOCOLS as $protocol) {
-                set_error_handler(function() {});
+                set_error_handler(function () {
+                });
                 stream_wrapper_restore($protocol);
                 restore_error_handler();
             }

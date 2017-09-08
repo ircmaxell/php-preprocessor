@@ -2,18 +2,15 @@
 namespace PhpPreprocessor\Cli\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\{
-    InputArgument,
-    InputInterface
-};
-use Symfony\Component\Console\Output\{
-    ConsoleOutputInterface,
-    OutputInterface
-};
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 use PhpPreprocessor\Builder;
 
-class Build extends Command {
+class Build extends Command
+{
 
     /**
      * {@inheritDoc}
@@ -52,5 +49,4 @@ class Build extends Command {
         $builder->build($src, $dest);
         return 0;
     }
-    
 }

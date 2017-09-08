@@ -1,11 +1,11 @@
 <?php
-
+declare(strict_types=1);
 namespace PhpPreprocessor\Transform;
 
 use PhpPreprocessor\Transform;
 
-class Json implements Transform {
-
+class Json implements Transform
+{
     protected $assoc;
     protected $depth;
     protected $options;
@@ -33,5 +33,4 @@ class Json implements Transform {
         $code .= ");";
         return $code;
     }
-
 }

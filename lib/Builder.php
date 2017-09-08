@@ -4,8 +4,8 @@ namespace PhpPreprocessor;
 
 use DirectoryIterator;
 
-class Builder {
-
+class Builder
+{
     protected $extensions = [];
 
     public function build(string $sourceDir, string $destinationDir)
@@ -46,5 +46,4 @@ class Builder {
             file_put_contents($destinationFile, $data);
         }
     }
-
 }

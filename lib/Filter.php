@@ -5,7 +5,8 @@ namespace PhpPreprocessor;
 
 use php_user_filter;
 
-class Filter extends php_user_filter {
+class Filter extends php_user_filter
+{
     const NAME = "php-preprocessor";
 
     protected $buffer = '';
@@ -15,8 +16,8 @@ class Filter extends php_user_filter {
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         stream_filter_append(
             $resource,
-            self::NAME, 
-            STREAM_FILTER_READ, 
+            self::NAME,
+            STREAM_FILTER_READ,
             [
                 "ext" => $ext,
                 "path" => $path,
@@ -43,5 +44,4 @@ class Filter extends php_user_filter {
         }
         return PSFS_PASS_ON;
     }
-
 }

@@ -4,8 +4,8 @@ namespace PhpPreprocessor\Cli;
 use Cilex\Application as CoreApplication;
 use DirectoryIterator;
 
-class Application extends CoreApplication {
-
+class Application extends CoreApplication
+{
     public function __construct()
     {
         parent::__construct("preprocessor", "1.0");

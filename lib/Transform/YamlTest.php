@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use PhpPreprocessor\Transform;
 use Symfony\Component\Yaml\Yaml as YamlParser;
 
-class YamlTest extends Testcase {
-
+class YamlTest extends Testcase
+{
     public static function provideTransformSuccess(): array
     {
         $tests = [
@@ -63,5 +63,4 @@ class YamlTest extends Testcase {
         }
         eval('?>' . $code);
     }
-
 }

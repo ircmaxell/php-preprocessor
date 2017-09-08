@@ -1,12 +1,12 @@
 <?php
-
+declare(strict_types=1);
 namespace PhpPreprocessor\Transform;
 
 use PhpPreprocessor\Transform;
 use Symfony\Component\Yaml\Yaml as YamlParser;
 
-class Yaml implements Transform {
-
+class Yaml implements Transform
+{
     protected $flags;
     protected $process;
 
@@ -29,5 +29,4 @@ class Yaml implements Transform {
         $code .= ");";
         return $code;
     }
-
 }

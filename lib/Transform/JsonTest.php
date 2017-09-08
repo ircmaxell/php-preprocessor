@@ -5,8 +5,8 @@ namespace PhpPreprocessor\Transform;
 use PHPUnit\Framework\TestCase;
 use PhpPreprocessor\Transform;
 
-class JsonTest extends Testcase {
-
+class JsonTest extends Testcase
+{
     public static function provideTransformSuccess(): array
     {
         $tests = [
@@ -62,5 +62,4 @@ class JsonTest extends Testcase {
         $code = $transform->transform($json);
         $this->assertNull(eval('?>' . $code));
     }
-
 }

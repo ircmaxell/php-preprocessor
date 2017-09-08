@@ -2,8 +2,8 @@
 
 namespace PhpPreprocessor;
 
-class PreProcessor {
-
+class PreProcessor
+{
     const STRING_TOKEN = "<?php '\xf0\x9f\xa7\x99';";
     const EXT_ALL = '*';
 
@@ -12,7 +12,6 @@ class PreProcessor {
 
     private function __construct()
     {
-
     }
 
     public static function instance(): PreProcessor
@@ -63,5 +62,4 @@ class PreProcessor {
         }
         return $extensions;
     }
-
 }
