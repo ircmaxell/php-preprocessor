@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "files": [
+            "src/boot.php"
+        ]
+    },
+    "require": {
+        "ircmaxell/php-preprocessor": "*"
+    }
+}

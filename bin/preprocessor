@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+$loader = '/vendor/autoload.php';
+$start = dirname(__DIR__);
+while (!file_exists($start . $loader) && $start !== '/') {
+    $start = dirname($start);
+}
+if (!file_exists($start . $loader)) {
+    echo "Could not find composer autoloader\n";
+    exit -1;
+}
+
+require $start . $loader;
+
+$app = new PhpPreprocessor\Cli\Application;
+
+$app->run();
