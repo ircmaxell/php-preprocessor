@@ -4,7 +4,7 @@ namespace PhpPreprocessor;
 
 class PreProcessor
 {
-    const STRING_TOKEN = "<?php '\xf0\x9f\xa7\x99';";
+    const STRING_TOKEN = "<?php /*\xf0\x9f\xa7\x99*/";
     const EXT_ALL = '*';
 
     protected $transforms = [];
@@ -37,12 +37,16 @@ class PreProcessor
     {
         if (substr($data, 0, strlen(self::STRING_TOKEN)) === self::STRING_TOKEN) {
             return $data;
+        } elseif (strpos($path, 'nikic/php-parser') !== false) {
+            return $data;
+        } elseif (strpos($path, __DIR__) !== false) {
+            return $data;
         }
         if (isset($this->transforms[$ext])) {
             $data = $this->transforms[$ext]->transform($data);
         }
         if (isset($this->transforms[self::EXT_ALL])) {
-            return $this->transforms[$ext]->transform($data);
+            $data = $this->transforms[self::EXT_ALL]->transform($data);
         }
         $count = 1;
         if (substr($data, 0, 5) === '<?php') {

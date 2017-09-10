@@ -13,12 +13,20 @@
     <testsuites>
         <testsuite name="Preprocessor Test Suite">
             <directory>./lib</directory>
+            <directory>./src</directory>
         </testsuite>
     </testsuites>
 
     <filter>
-        <whitelist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./lib/</directory>
+            <exclude>
+                <directory suffix="Test.php">./lib/</directory>
+            </exclude>
+            <directory suffix=".php">./src/</directory>
+            <exclude>
+                <directory suffix="Test.php">./src/</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>
