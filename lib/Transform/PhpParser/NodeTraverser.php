@@ -44,8 +44,21 @@ class NodeTraverser
                         $changed = true;
                     }
                 } elseif ($node instanceof Node) {
-                    $return = $this->transpile($node);
-                    if ($return instanceof Node) {
+                    $return = $node;
+                    foreach ($this->rules as $class => $ruleset) {
+                        if ($return instanceof $class) {
+                            foreach ($ruleset as $rule) {
+                                $return = $rule->transpile($return, $this->context);
+                                if ($return === null) {
+                                    $return = $node;
+                                } elseif ($return !== $node) {
+                                    $changed = true;
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                    if ($return !== $node && $return instanceof Node) {
                         $doNodes[] = [$i, $this->traverseArray([$return])];
                     } elseif (is_array($return)) {
                         $doNodes[] = [$i, $this->traverseArray($return)];
@@ -65,7 +78,26 @@ class NodeTraverser
             foreach ($nodes as $node) {
                 if ($node instanceof Node) {
                     $this->context->push($node);
-                    $changed |= $this->traverseNode($node);
+                    foreach ($node->getSubNodeNames() as $name) {
+                        $subNode = $node->$name;
+                        if (is_array($subNode)) {
+                            $node->$name = $this->traverseArray($subNode);
+                            if ($node->$name !== $subNode) {
+                                $changed = true;
+                            }
+                        } elseif ($subNode instanceof Node) {
+                            $return = $this->traverseArray([$subNode]);
+                            if (is_array($return)) {
+                                if (count($return) !== 1) {
+                                    throw new RuntimeException("May only return " . count($return) . " nodes if parent structure is array");
+                                }
+                                if ($subNode !== $return[0]) {
+                                    $node->$name = $return[0];
+                                    $changed = true;
+                                }
+                            }
+                        }
+                    }
                     $this->context->pop($node);
                 }
             }
@@ -73,46 +105,4 @@ class NodeTraverser
         return $nodes;
     }
 
-    protected function traverseNode(Node $node): bool
-    {
-        $changed = false;
-        foreach ($node->getSubNodeNames() as $name) {
-            $subNode = $node->$name;
-            if (is_array($subNode)) {
-                $node->$name = $this->traverseArray($subNode);
-                if ($node->$name !== $subNode) {
-                    $changed = true;
-                }
-            } elseif ($subNode instanceof Node) {
-                $return = $this->traverseArray([$subNode]);
-                if (is_array($return)) {
-                    if (count($return) !== 1) {
-                        throw new RuntimeException("May only return " . count($return) . " nodes if parent structure is array");
-                    }
-                    if ($subNode !== $return[0]) {
-                        $node->$name = $return[0];
-                        $changed = true;
-                    }
-                }
-            }
-        }
-        return $changed;
-    }
-
-    protected function transpile(Node $node)
-    {
-        $new = $node;
-        foreach ($this->rules as $class => $ruleset) {
-            if ($new instanceof $class) {
-                foreach ($ruleset as $rule) {
-                    $new = $rule->transpile($new, $this->context);
-                    if ($new === null) {
-                        $new = $node;
-                    } elseif ($new !== $node) {
-                        return $new;
-                    }
-                }
-            }
-        }
-    }
 }
