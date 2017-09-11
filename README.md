@@ -1,6 +1,8 @@
 # PHP PreProcessor
 
-What is this? It's a tool to support pre-processing of `include/require`'d files in PHP.
+What is this? It was an attempt at pre-processing of `include/require`'d files in PHP.
+
+TLDR: Juse use [preprocess.io](https://preprocess.io)...
 
 ## How does it work
 
@@ -88,3 +90,11 @@ The returned string **MUST** be valid PHP code.
 
 The reason this is important is because of error handling. The `Yaml` parser throws an exception on invalid YAML. Using `Transform::PREPROCESS` means that the exception will happen when building (if you're using the build tool). Using `Transform::POSTPROCESS` will always have the exception occur in the `require` call.
 
+## Credits:
+
+ * Loading mechanism was heavily inspired and partially derived by [Patchwork](https://github.com/antecedent/patchwork/)
+ * Also heavily dependent and derived from [Php-Parser](https://github.com/nikic/php-parser)...
+
+## Status of the project
+
+Right now, it's just a proof-of-concept. Because of that, use [preprocess.io](https://preprocess.io) if you want similar functionality...
