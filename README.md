@@ -2,7 +2,7 @@
 
 What is this? It was an attempt at pre-processing of `include/require`'d files in PHP.
 
-TLDR: Juse use [preprocess.io](https://preprocess.io)...
+TLDR: Just use [preprocess.io](https://preprocess.io)...
 
 ## How does it work
 
